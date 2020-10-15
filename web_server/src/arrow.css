@@ -1,0 +1,20 @@
+.arrow {
+  height: 500px;
+  pointer-events: none;
+}
+
+.arrow.click {
+  height: 10vmin;
+  pointer-events: none;
+}
+
+
+.p {
+  display : none;
+}
+
+
+.p.click {
+  font-size: 3rem;
+  display : block;
+}
