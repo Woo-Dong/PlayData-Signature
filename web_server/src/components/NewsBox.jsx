@@ -14,11 +14,12 @@ const S = {
     flex-direction: row;
     justify-content: space-between;
   `,
-  TextWrapper: styled.div`
+  TextWrapper: styled.blockquote`
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 580px;
+    background-color: #ffe5d6;
   `,
   Label: styled.p`
     display: inline-block;
@@ -26,7 +27,12 @@ const S = {
     color: ${props => props.theme.palette.primary};
     margin-bottom: 1rem;
   `,
-  Title: styled.h2`
+  Title: styled.h3`
+    ${props => props.theme.typography.subtitle};
+    color: ${props => props.theme.palette.black};
+    margin-bottom: 1rem;
+  `,
+  SubTitle: styled.h4`
     ${props => props.theme.typography.subtitle};
     color: ${props => props.theme.palette.black};
     margin-bottom: 1rem;
@@ -82,8 +88,10 @@ const NewsBox = () => {
         <S.Label>코로나 관련 뉴스</S.Label>
         <S.Title>
           {newsData.title} <br />
-          {newsData.date}
         </S.Title>
+        <S.SubTitle>
+          {newsData.date}
+        </S.SubTitle>
         <S.Description>
           {newsData.content}
         </S.Description>
@@ -96,7 +104,7 @@ const NewsBox = () => {
         </S.List> */}
         <S.TextButton as="a" href={newsData.url}>뉴스 원문 보러 가기</S.TextButton>
       </S.TextWrapper>
-      <IMG.Image /> 
+      <IMG.Image />
     </S.Wrapper>
   );
 };
