@@ -1,6 +1,8 @@
 import React from 'react';
 
-import GraphSection from './components/GraphSection.js';
+import GraphSection from './components/GraphSection';
+import NewsSection from './components/NewsSections';
+
 import scrollToComponent from 'react-scroll-to-component';
 import IndexNavbar from './components/IndexNavbar'; 
 import IndexHeader from './components/IndexHeader'; 
@@ -25,12 +27,15 @@ export default class App extends React.Component {
 					toIndexHeader={() => scrollToComponent(this.IndexHeader, { offset: 0, align: 'top', duration: 1500, ease:'inExpo'})}
 					toMainBoard={() => scrollToComponent(this.MainBoard, { offset: 0, align: 'top', duration: 1500})}
 					toGraphSection={() => scrollToComponent(this.GraphSection, { offset: 0, align: 'top', duration: 1500})}
+					toNewsSection={() => scrollToComponent(this.NewsSection, { offset: 0, align: 'top', duration: 1500})}
 				/> 
 				<IndexHeader ref={(IndexHeader) => { this.IndexHeader = IndexHeader;}} />
 				<MainBoard  ref={(MainBoard) => { this.MainBoard = MainBoard; }} />
 				<GraphSection 
 					color='red' 
 					ref={(GraphSection) => { this.GraphSection = GraphSection; }} />
+					
+				<NewsSection ref={(NewsSection) => { this.NewsSection = NewsSection; }} />
 				{/* <iframe src="http://localhost:5601/goto/d19e0bd25c1361ba71a02d38555f6e78" height="600" width="800"></iframe> */}
 			</ThemeProvider>
 		)

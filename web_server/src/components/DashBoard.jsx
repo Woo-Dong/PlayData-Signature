@@ -71,7 +71,6 @@ const DashBoard = () => {
 
   const request = require('sync-request'); 
   const dashData = JSON.parse(request('GET', '/api/dashboard').getBody());
-  console.log(dashData); 
 
   const FIGURE_ITEMS = [
     {
@@ -116,7 +115,7 @@ const DashBoard = () => {
       unit: '+',
       description:
         '---',
-    },
+    }
   ];
 
 

@@ -19,11 +19,13 @@ const S = {
     flex-direction: column;
     justify-content: center;
   `,
+
   Title: styled.h1`
     ${props => props.theme.typography.title};
     color: #fff;
     margin-bottom: 0.5rem;
   `,
+  
   Description: styled.p`
     ${props => props.theme.typography.description};
     color: ${props => props.theme.palette.white};

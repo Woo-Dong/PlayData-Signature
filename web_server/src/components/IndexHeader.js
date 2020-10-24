@@ -7,7 +7,7 @@ export default class IndexHeader extends React.Component {
     super(props);
     this.mainStyles = { 
       // backgroundColor: "rgba( 255, 255, 255, 0.1 )",
-      height: "780px"
+      minHeight: "780px"
     }
   }
 

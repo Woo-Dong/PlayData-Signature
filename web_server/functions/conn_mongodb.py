@@ -8,8 +8,11 @@ conn = MongoClient(MONGO_URI, retryWrites="false")
 db = conn.get_default_database()
 
 sample_db = db['sample']
+news_db = db['news']
 
 def get_dashboard_data(): 
+    
+
     result = sample_db.find().sort("date", -1).limit(2)
     today, yesterday = list(result)
 
@@ -22,3 +25,14 @@ def get_dashboard_data():
         res_dict[elem] = today[elem]
     res_dict['date'] = today['date']
     return res_dict
+
+def get_news_data(): 
+    result = news_db.find().sort("date", -1).limit(3) 
+    result = list(result)
+    
+    for elem in result: 
+        print(elem['date']) 
+    res = result[0] 
+    del(res['_id'])
+    return res
+

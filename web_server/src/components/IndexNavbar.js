@@ -46,7 +46,7 @@ function IndexNavbar(props) {
 							Signature
 						</NavbarBrand>
 						<UncontrolledTooltip target="#navbar-brand">
-							(시그니처)
+							(Signature Project)
 						</UncontrolledTooltip>
 					</div>
 
@@ -67,7 +67,7 @@ function IndexNavbar(props) {
 								onClick={props.toMainBoard}
 								variant="primary"
 							>
-								<i className="now-ui-icons loader_gear"></i>
+								<i className="now-ui-icons design_bullet-list-67"></i>
 								<p>Dash Board</p>
 							</NavLink>
 						</NavItem>
@@ -76,8 +76,17 @@ function IndexNavbar(props) {
 							<NavLink
 								onClick={props.toGraphSection}
 							>
-								<i className="now-ui-icons loader_gear"></i>
+								<i className="now-ui-icons media-2_sound-wave"></i>
 								<p>graph</p>
+							</NavLink>
+						</NavItem>
+
+						<NavItem>
+							<NavLink
+								onClick={props.toNewsSection}
+							>
+								<i className="now-ui-icons education_paper"></i>
+								<p>news</p>
 							</NavLink>
 						</NavItem>
 					</Nav>
