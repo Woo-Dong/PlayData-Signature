@@ -29,7 +29,7 @@ def get_plot_sample1():
             color="blue", legend="American")
 
     p.legend.location = "top_left"
-    return json.dumps(json_item(p, "myplot"))
+    return json_item(p, "myplot")
 
 
 def get_plot_sample2(): 
@@ -58,4 +58,4 @@ def get_plot_sample2():
     slider.js_on_change('value', callback)
     layout = column(slider, plot)
 
-    return json.dumps(json_item(layout, "myplot"))
+    return json_item(layout, "myplot")
