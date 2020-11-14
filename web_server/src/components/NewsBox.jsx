@@ -72,7 +72,7 @@ const NewsBox = () => {
   const animatedImage = useScrollClipPath();
 
   const request = require('sync-request'); 
-  const newsData = JSON.parse(request('GET', '/api/news-data').getBody()); 
+  const newsData = JSON.parse(request('GET', 'localhost:5000/api/news-data').getBody()); 
 
   const IMG = {
     Image: styled.div`

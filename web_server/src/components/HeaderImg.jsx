@@ -10,20 +10,22 @@ const S = {
     background: no-repeat center/cover url(${require("../assets/img/background_simple.png")});
   `,
   Wrapper: styled.div`
-    width: 100%;
+    width: 10%;
     height: 100%;
-    max-width: 1180px;
-    padding-top: 100px;
+    padding-top: 200px;
     margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    text-align: center;
+    
   `,
 
   Title: styled.h1`
     ${props => props.theme.typography.title};
-    color: #fff;
+    color: #f1c232;
     margin-bottom: 0.5rem;
+    
   `,
   
   Description: styled.p`

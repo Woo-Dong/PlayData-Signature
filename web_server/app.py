@@ -1,45 +1,69 @@
 
 from sanic import Sanic 
-from sanic.response import json_dumps, file, json
+import sanic.response as Response
 from sanic_cors import CORS 
+
+from sanic_scheduler import SanicScheduler, task 
+
+from datetime import datetime, time, timedelta 
+
 import os 
 
-from functions.conn_mongodb import get_dashboard_data, get_news_data
-from functions.sample_plot import get_plot_sample1, get_plot_sample2
+from functions.get_data import *
+from functions.plot_to_bokeh import *
+from functions.cron_job_crawling import *
+from functions.cron_job_inference import * 
 
-# app = Sanic(__name__, static_folder='build', static_url_path='')
-app = Sanic(__name__)
-app.static('', 'build')
-CORS(app)
+
+app = Sanic(__name__) 
+app.static('', 'build') # After debugging, integrete with Sanic Framework 
+
+
 # CORS enabled so react frontend can pull data from python backend
+CORS(app)
+
+
+scheduler = SanicScheduler(app)  # Cron Job Scheduler Setting 
+
+
+@task(timedelta(seconds=30))
+async def cron_inference(_): 
+    # insert_inference_data(predict_fbprophet('sample'))
+    print("Foo ", datetime.now()) 
 
 
 @app.route('/api/test')
 def hello_world(request):
-    return 'Hello, World!'
+    return Response.json({'res': 'Hello, World!'})
 
-@app.route('/api/plot2')
-async def plot2(request):
-    return json(get_plot_sample2())
 
-@app.route('/api/plot1')
-async def plot1(request):
-    return json(get_plot_sample1())
-    
+@app.route('/api/pred-fbprophet')
+async def plot_predict_fbprophet(request):
+
+    real_df = get_confirmed_data() 
+    pred_df = get_predict_fbprophet_data() 
+
+    res = get_plot_predict_fbprophet(real_df, pred_df)
+    return Response.json(res)
 
 @app.route('/api/dashboard')
 async def dashboard(request): 
     res = get_dashboard_data()
-    return json(res)
+    return Response.json(res)
 
-@app.route('/api/news-data')
-async def news_data(request): 
-    return json(get_news_data())
+# @app.route('/api/plot1')
+# async def plot1(request):
+#     return json(get_plot_sample1())
+
+
+# @app.route('/api/news-data')
+# async def news_data(request): 
+#     return json(get_news_data())
 
 # Sanic Main Setting -> running app ========================
 @app.route('/')
 async def index(request):
-    return await file('build/index.html')
+    return await Response.file('build/index.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, 

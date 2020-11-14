@@ -30,8 +30,8 @@ export default class App extends React.Component {
 											{ offset: 0, align: 'top', duration: 1500} )}
 					toGraphSection={() => scrollToComponent(this.GraphSection, 
 											{ offset: 0, align: 'top', duration: 1500} )}
-					toNewsSection={() => scrollToComponent(this.NewsSection, 
-											{ offset: 0, align: 'top', duration: 1500} )}
+					// toNewsSection={() => scrollToComponent(this.NewsSection, 
+											// { offset: 0, align: 'top', duration: 1500} )}
 				/> 
 				<IndexHeader ref={(IndexHeader) => { this.IndexHeader = IndexHeader; }} />
 				<MainBoard  ref={(MainBoard) => { this.MainBoard = MainBoard; }} />
@@ -39,9 +39,8 @@ export default class App extends React.Component {
 					color='red' 
 					ref={(GraphSection) => { this.GraphSection = GraphSection; }} />
 					
-				<NewsSection ref={(NewsSection) => { this.NewsSection = NewsSection; }} />
+				{/* <NewsSection ref={(NewsSection) => { this.NewsSection = NewsSection; }} /> */}
 				
-				{/* <iframe src="http://localhost:5601/goto/d19e0bd25c1361ba71a02d38555f6e78" height="600" width="800"></iframe> */}
 			</ThemeProvider>
 		)
 	}

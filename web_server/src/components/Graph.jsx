@@ -31,10 +31,11 @@ const S = {
 };
 
 function plotTest1() { 
-    Axios.get("/api/plot1").then(res => window.Bokeh.embed.embed_item(res.data, 'testPlot1'))
+    // Axios.get("http://localhost:5000/api/pred-fbprophet").then(res => window.Bokeh.embed.embed_item(res.data, 'predPlot1'))
+    Axios.get("/api/pred-fbprophet").then(res => window.Bokeh.embed.embed_item(res.data, 'predPlot1'))
 }
 plotTest1();
-Axios.get("/api/plot2").then(res => window.Bokeh.embed.embed_item(res.data, 'testPlot2'))
+// Axios.get("http://localhost:5000/api/plot2").then(res => window.Bokeh.embed.embed_item(res.data, 'testPlot2'))
 
 const Graph = () => {
   const animatedItem = {
@@ -53,8 +54,8 @@ const Graph = () => {
         <S.Description>질병 관리 본부</S.Description>
       </S.Title>
       <div className='row'>
-        <div id='testPlot1' className="bk-root1 col-md-auto" {...animatedItem[2]} />
-        <div id='testPlot2' className="bk-root2 col-md-auto" {...animatedItem[3]} />
+        <div id='predPlot1' className="bk-root1 col-md-auto" {...animatedItem[2]} />
+        {/* <div id='testPlot2' className="bk-root2 col-md-auto" {...animatedItem[3]} /> */}
       </div>
     </S.Wrapper>
   );

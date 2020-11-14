@@ -5,7 +5,7 @@ import { useScrollFadeIn, useScrollCount } from '../hooks';
 const S = {
   
   Background: styled.section`
-    background-color: ${(props) => props.theme.palette.background};
+    // background-color: ${(props) => props.theme.palette.background};
     width: 100%;
   `,
   Wrapper: styled.div`
@@ -71,6 +71,8 @@ const DashBoard = () => {
 
   const request = require('sync-request'); 
   const dashData = JSON.parse(request('GET', '/api/dashboard').getBody());
+  // const dashData = JSON.parse(request('GET', 'http://localhost:5000/api/dashboard').getBody());
+
 
   const FIGURE_ITEMS = [
     {
@@ -128,7 +130,7 @@ const DashBoard = () => {
   const countItem2 = {
     0: useScrollCount(dashData.today_confirmed, 0, 1),
     1: useScrollCount(dashData.today_released, 0, 1),
-    2: useScrollCount(dashData.today_death, 0, 0.5),
+    2: useScrollCount(dashData.today_death, -1, 1),
   };
 
   const animatedItem = {
