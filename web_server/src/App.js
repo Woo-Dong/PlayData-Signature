@@ -9,6 +9,7 @@ import IndexHeader from './components/IndexHeader';
 import MainBoard from './components/MainBoard';
 import { ThemeProvider } from 'styled-components';
 
+
 import theme from './styles/theme'; 
 import './App.css';
 
@@ -35,13 +36,13 @@ export default class App extends React.Component {
 				/> 
 				<IndexHeader ref={(IndexHeader) => { this.IndexHeader = IndexHeader; }} />
 				<MainBoard  ref={(MainBoard) => { this.MainBoard = MainBoard; }} />
-				<GraphSection 
-					color='red' 
-					ref={(GraphSection) => { this.GraphSection = GraphSection; }} />
+				<GraphSection ref={(GraphSection) => { this.GraphSection = GraphSection; }} />
 					
 				{/* <NewsSection ref={(NewsSection) => { this.NewsSection = NewsSection; }} /> */}
-				
+
 			</ThemeProvider>
+
+
 		)
 	}
 }

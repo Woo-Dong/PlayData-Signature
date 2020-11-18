@@ -70,8 +70,8 @@ const S = {
 const DashBoard = () => {
 
   const request = require('sync-request'); 
-  const dashData = JSON.parse(request('GET', '/api/dashboard').getBody());
   // const dashData = JSON.parse(request('GET', 'http://localhost:5000/api/dashboard').getBody());
+  const dashData = JSON.parse(request('GET', '/api/dashboard').getBody());
 
 
   const FIGURE_ITEMS = [
