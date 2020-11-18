@@ -5,9 +5,9 @@ import os
 
 
 def conn_db(): 
-    user = os.getenv("DBUSER", 'signature')
-    pwd = os.getenv("DBPWD", 'shanekang')
-    ip_addr = os.getenv("DBADDR", '54.180.213.105')
+    user = os.getenv("DBUSER", '')
+    pwd = os.getenv("DBPWD", '')
+    ip_addr = os.getenv("DBADDR", '')
 
     conn = MongoClient(f'mongodb://{user}:{pwd}@{ip_addr}:27017') 
     return conn
