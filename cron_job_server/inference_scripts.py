@@ -1,4 +1,4 @@
-from functions import conn_db, insert_data, train_FBProphet_model
+from functions import conn_db, insert_data, upsert_data, train_FBProphet_model
 
 import pandas as pd 
 import os, io
@@ -53,6 +53,8 @@ def validate_FBProphet_model(ADJ_CONST):
     result = forecast.tail(7) 
     col_list = ['ds', 'yhat', 'yhat_lower', 'yhat_upper']
     result = result[col_list]
+    result.rename({'ds': 'date'}, axis=1, inplace=True) 
+    result.date = result.date.apply(lambda x: x.strftime("%Y-%m-%d"))
 
     for col in col_list[1:]: result[col] = round((result[col] - prev_num) * ADJ_CONST, 0)
     result['real'] = val_data 
@@ -60,7 +62,25 @@ def validate_FBProphet_model(ADJ_CONST):
     return result 
 
 
-def insert_validate_FBProphet_data(ADJ_CONST=1.): 
+def upsert_inference_data(): 
+
+    pred_df, prev_num = predict_FBProphet_model()
+    conn = conn_db()
+    inference_FBProphet_collection = conn.DomesticCOVID.inference_FBProphet
+    
+    upsert_data(pred_df, inference_FBProphet_collection, ['date'], reset=True)
+
+    prev_doc = { 
+        'date': prev_num[0], 
+        'real': prev_num[1]
+    }
+    inference_FBProphet_collection.insert(prev_doc) 
+    conn.close() 
+
+    return True
+
+
+def insert_validate_FBProphet_data(ADJ_CONST=1.4): 
 
     try: 
         val_df = validate_FBProphet_model(ADJ_CONST) 
@@ -73,12 +93,8 @@ def insert_validate_FBProphet_data(ADJ_CONST=1.):
         col_list = val_df.columns 
         doc_list = list() 
 
-        for _, row in val_df.iterrows(): 
-            doc = {k: max(v, 0) for k, v in zip(col_list[1:], row[1:])}
-            doc['date'] = str(row[0]).split()[0]
-            doc_list.append(doc)             
+        insert_data(val_df, validate_FBProphet_collection, check=False)
 
-        validate_FBProphet_collection.insert_many(doc_list) 
         conn.close() 
         return True 
 
@@ -87,33 +103,7 @@ def insert_validate_FBProphet_data(ADJ_CONST=1.):
         return False 
 
 
-def upsert_inference_data(): 
-
-    pred_df, prev_num = predict_FBProphet_model()
-    conn = conn_db()
-    inference_FBProphet_collection = conn.DomesticCOVID.inference_FBProphet
-    col_list = pred_df.columns
-
-    for _, row in pred_df.iterrows(): 
-    
-        inference_FBProphet_collection.find_one_and_update(
-                                            {'date': row[0]}, 
-                                            {'$set': {
-                                                k: v for k, v in zip(col_list[1:], row[1:]) 
-                                                }}, 
-                                            upsert=True)
-
-    prev_doc = { 
-        'date': prev_num[0], 
-        'real': prev_num[1]
-    }
-    inference_FBProphet_collection.insert(prev_doc) 
-                            
-    conn.close() 
-    return True
-
-
 if __name__ == "__main__":
     print("predict FBProphet data Upsert: ", upsert_inference_data())
-    print("validate FBPropeht data Insert: ", insert_validate_FBProphet_data(ADJ_CONST=1.))
+    print("validate FBPropeht data Insert: ", insert_validate_FBProphet_data(ADJ_CONST=1.7))
      

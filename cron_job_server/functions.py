@@ -5,21 +5,23 @@ import os
 
 
 def conn_db(): 
-    user = os.getenv("DBUSER", '')
-    pwd = os.getenv("DBPWD", '')
-    ip_addr = os.getenv("DBADDR", '')
+    user = os.getenv("DBUSER", 'signature')
+    pwd = os.getenv("DBPWD", 'shanekang')
+    ip_addr = os.getenv("DBADDR", '54.180.213.105')
 
     conn = MongoClient(f'mongodb://{user}:{pwd}@{ip_addr}:27017') 
     return conn
 
 
-def insert_data(df, collection, *chk_keys): 
+def insert_data(df, collection, check=False, *chk_keys): 
     doc_list = list() 
     for _, row in df.iterrows(): 
     
+        
         # Check if duplicated
-        query_dict = {k: row[k] for k in chk_keys}
-        if collection.find_one(query_dict): continue
+        if check: 
+            query_dict = {k: row[k] for k in chk_keys}
+            if collection.find_one(query_dict): continue
 
         doc = {col: val for col, val in zip(df.columns, row)} 
         doc_list.append(doc)
@@ -27,7 +29,31 @@ def insert_data(df, collection, *chk_keys):
     if doc_list: 
         collection.insert_many(doc_list)
         return True 
+
     return False 
+
+
+def upsert_data(df, collection, keys, upsert_columns=None, reset=False): 
+
+    if reset: collection.drop() 
+    
+    if not upsert_columns: 
+        upsert_columns = [col for col in df.columns if col not in keys]
+
+    status = False 
+
+    for _, row in df.iterrows(): 
+
+        key_values = [row[elem] for elem in keys]
+        upsert_values = [row[elem] for elem in upsert_columns]
+        
+        collection.find_one_and_update(
+            {k: v for k, v in zip(keys, key_values)}, 
+            {'$set': {k: v for k, v in zip(upsert_columns, upsert_values)} }, 
+            upsert=True)
+        status = True 
+
+    return status
 
 
 def train_FBProphet_model(data, 
@@ -49,7 +75,3 @@ def train_FBProphet_model(data,
     model.fit(prophet_df) 
 
     return model 
-
-# TODO 
-def upsert_data(df, collection, key, set_col): 
-    pass 
