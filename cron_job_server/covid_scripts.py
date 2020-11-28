@@ -3,7 +3,7 @@ import pandas as pd
 import requests 
 import io
 
-from crawling_part import crawling_global_covid, crawling_domestic_covid_cumul, crawling_domestic_detailed_covid
+from covid_crawling_part import crawling_global_covid, crawling_domestic_covid_cumul, crawling_domestic_detailed_covid
 from functions import conn_db, insert_data, upsert_data
 
 
@@ -18,8 +18,8 @@ def insert_global_covid():
     global_cumul_collection = conn.GlobalCOVID.cumul 
 
     print(datetime.now())
-    print("insert_global_covid daily Updated: ", insert_data(global_daily_df, global_daily_collection, 'date', 'country'))
-    print("insert_global_covid cumul Updated: ", insert_data(global_cumul_df, global_cumul_collection, 'date', 'country'))
+    print("insert_global_covid daily Updated: ", insert_data(global_daily_df, global_daily_collection, 'date', 'country', check=True))
+    print("insert_global_covid cumul Updated: ", insert_data(global_cumul_df, global_cumul_collection, 'date', 'country', check=True))
     conn.close() 
 
     return True 
@@ -32,7 +32,7 @@ def insert_domestic_covid_cumul():
     conn = conn_db() 
     domestic_cumul_collection = conn.DomesticCOVID.domestic_cumul 
 
-    print("insert_domestic_covid_cumul Updated: ", insert_data(domestic_cumul_df, domestic_cumul_collection, 'date'))
+    print("insert_domestic_covid_cumul Updated: ", insert_data(domestic_cumul_df, domestic_cumul_collection, 'date', check=True))
     conn.close() 
 
     return True 
@@ -65,13 +65,6 @@ def insert_domestic_detailed_covid():
     conn.close() 
 
     return True 
-
-
-
-# TODO
-def get_news_API(): 
-    pass 
-
 
 # Main Function  
 if __name__ == "__main__":

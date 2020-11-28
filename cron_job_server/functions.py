@@ -1,5 +1,4 @@
 from pymongo import MongoClient 
-from fbprophet import Prophet
 import pandas as pd 
 import os
 
@@ -13,11 +12,10 @@ def conn_db():
     return conn
 
 
-def insert_data(df, collection, check=False, *chk_keys): 
+def insert_data(df, collection, *chk_keys, check=False): 
     doc_list = list() 
     for _, row in df.iterrows(): 
     
-        
         # Check if duplicated
         if check: 
             query_dict = {k: row[k] for k in chk_keys}
@@ -56,22 +54,3 @@ def upsert_data(df, collection, keys, upsert_columns=None, reset=False):
     return status
 
 
-def train_FBProphet_model(data, 
-                        changepoint_prior_scale=.2,  changepoint_range=.98, 
-                        yearly_seasonality=False, weekly_seasonality=True, 
-                        daily_seasonality=True, seasonality_mode='additive'): 
-
-    prophet_df = pd.DataFrame(data, columns=['ds', 'y'])
-    prophet_df.sort_values('ds', inplace=True)
-
-    model = Prophet(
-        changepoint_prior_scale=changepoint_prior_scale, # increasing it will make the trend more flexible
-        changepoint_range=changepoint_range, # place potential changepoints in the 98% of the time series
-        yearly_seasonality=yearly_seasonality, 
-        weekly_seasonality=weekly_seasonality, 
-        daily_seasonality=daily_seasonality,
-        seasonality_mode=seasonality_mode)
-
-    model.fit(prophet_df) 
-
-    return model 
