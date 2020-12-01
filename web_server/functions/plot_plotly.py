@@ -1,4 +1,7 @@
+from plotly.subplots import make_subplots
 import plotly.graph_objs as go 
+import plotly.express as px
+
 import json 
 
 def validate_fbprophet_plotly(data_df): 
@@ -103,3 +106,96 @@ def predict_fbprophet_plotly(data_df, prev_num):
     return json.loads(json_str)
     
 
+def global_daily_plotly(data_df): 
+
+
+    fig = px.line(data_df, x='date', y='confirmed', color='country',
+              title='Global daily recently',
+              hover_name='country')
+
+    fig.update_layout(
+        plot_bgcolor="white"
+    )
+    json_str = fig.to_json()
+    return json.loads(json_str)
+
+
+def global_cumul_plotly(data_df, last_date): 
+
+    countries = list(data_df.country.unique())
+
+    fig = go.Figure(data=[
+        go.Bar(name='confirmed', x=countries, y=data_df.confirmed), 
+        go.Bar(name='deaths', x=countries, y=data_df.deaths),
+        go.Bar(name='recovered', x=countries, y=data_df.recovered*(-1),
+            base=0),
+    ])
+
+    fig.update_layout(barmode='stack', title='Global Cumulative, date:'+last_date)
+
+    json_str = fig.to_json()
+    return json.loads(json_str)
+
+
+# domestic_daily_age_confirmed_plotly(data_df, 'age', 'confirmed')
+def domestic_daily_plotly(data_df, key, val): 
+
+    fig = px.line(data_df, x='date', y=val, color=key,
+                  title='Domestic daily ' + key,
+                  hover_name=key)
+    fig.update_layout(
+        plot_bgcolor="white", 
+        legend={'traceorder': 'normal'}
+    )
+    json_str = fig.to_json()  
+    return json.loads(json_str)
+
+
+def domestic_cumul_age_plotly(data_df): 
+
+    ages = data_df.attr.unique() 
+
+    fig = go.Figure(data=[
+        go.Bar(x=ages, y=data_df.confirmed, name='confirmed'),
+        go.Bar(x=ages, y=data_df.death, name='death')
+    ])
+
+    fig.update_layout(
+        title='domestic cumul: age',
+        barmode='group'
+    )
+    json_str = fig.to_json() 
+    return json.loads(json_str) 
+
+def domestic_cumul_area_plotly(data_df): 
+
+    areas = data_df.attr.unique()
+
+    fig = go.Figure(data=[
+        go.Bar(name='confirmed', x=areas, y=data_df.confirmed), 
+        go.Bar(name='death', x=areas, y=data_df.death),
+        go.Bar(name='released', x=areas, y=data_df.released*(-1),
+            base=0),
+    ])
+
+    fig.update_layout(barmode='stack', title='domestic cumul: area')
+    
+    json_str = fig.to_json() 
+    return json.loads(json_str)
+
+def domestic_cumul_gender_plotly(data_df): 
+
+    data_df.sort_values('attr', axis=0, inplace=True)
+    genders = data_df.attr.unique()
+    fig = make_subplots(rows=1, cols=2, specs=[[{'type':'domain'}, {'type':'domain'}]])
+    fig.add_trace(go.Pie(labels=genders, values=data_df.confirmed, name="confirmed"),
+                1, 1)
+    fig.add_trace(go.Pie(labels=genders, values=data_df.death, name="death"),
+                1, 2)
+    fig.update_layout(
+        title_text="domestic cumul: gender",
+        legend={'traceorder': 'reversed'}
+    )
+
+    json_str = fig.to_json() 
+    return json.loads(json_str)     

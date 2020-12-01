@@ -1,0 +1,63 @@
+version: '2' 
+
+services: 
+  sanic: 
+    container_name: sanic
+    build: 
+      context: . 
+    expose: 
+      - 5000 
+    ports: 
+      - 5000:5000
+    volumes: 
+      - ./:/app 
+      - ./functions:/app/functions
+    environment: 
+      DBUSER: signature
+      DBADDR: "54.180.213.105"
+      DBPWD: shanekang 
+
+
+  web:
+    image: nginx:latest
+    container_name: web
+    restart: "on-failure"
+    ports:
+      - 80:80
+    environment: 
+      DOMAIN: http://sanic:5000
+      HOST: signature-playdata.info
+    links: 
+      - "sanic:sanic"
+    volumes:
+      - ./web/nginx.conf:/etc/nginx/nginx.conf
+
+
+  client:
+    build:
+      context: ./client
+
+    container_name: client
+
+    restart: "on-failure"
+
+    expose:
+      - 3000
+    ports: 
+      - 3000:3000
+
+    depends_on: 
+      - sanic
+
+    volumes:
+      - './client:/app'
+      - '/app/node_modules'
+
+    environment: 
+      NODE_ENV: development 
+      CHOKIDAR_USEPOLLING: "true"
+      DOMAIN: http://sanic:5000
+      DANGEROUSLY_DISABLE_HOST_CHECK: "true"
+
+    stdin_open: true
+    tty: true

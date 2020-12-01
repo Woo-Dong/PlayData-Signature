@@ -1,0 +1,48 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.20.0",
+    "babel-preset-react-app": "^10.0.0",
+    "bootstrap": "^4.5.2",
+    "node-sass": "^4.14.1",
+    "plotly.js": "^1.57.1",
+    "react": "^16.13.1",
+    "react-bootstrap": "^1.3.0",
+    "react-dom": "^16.13.1",
+    "react-plotly.js": "^1.0.4",
+    "react-scripts": "3.4.3",
+    "react-scroll-to-component": "^1.0.2",
+    "reactstrap": "^8.6.0",
+    "styled-components": "^5.2.0",
+    "styled-reset": "^4.2.3",
+    "sync-request": "^6.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts --max-old-space-size=4196 start",
+    "build": "react-scripts --max-old-space-size=4196 build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "postinstall": "yarn run build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }, 
+  "proxy": "http://sanic:5000"
+}
