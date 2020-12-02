@@ -92,7 +92,7 @@ def get_news_api(query, num=100, sort_way='sim'):
 
 # 2. 코로나바이러스감염증-19 최근 게시된 공지사항 크롤링
 def briefing_crawing():
-    url = 'http://ncov.mohw.go.kr/tcmBoardList.do?brdId=&brdGubun=&dataGubun=&ncvContSeq=&contSeq=&board_id=140&gubun='
+    url = 'https://www.korea.kr/special/policyFocusList.do'
 
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
@@ -104,11 +104,13 @@ def briefing_crawing():
 
     browser.get(f'{url}')
     browser.implicitly_wait(1)
-    title = browser.find_element_by_css_selector("""#content > div > div.board_list > table > tbody > tr:nth-child(1) > td.ta_l > a""").text.strip() 
-    date = browser.find_element_by_css_selector("""#content > div > div.board_list > table > tbody > tr:nth-child(1) > td:nth-child(4)""").text.strip() 
-
-    browser.find_element_by_css_selector("""#content > div > div.board_list > table > tbody > tr:nth-child(1) > td.ta_l > a""").click()
-    texts = browser.find_element_by_css_selector("""#content > div > div.board_view > div.bv_content""").text
+    
+    browser.find_element_by_css_selector("""#container > div > article > div.article-content > div.list-type > ul > li:nth-child(2) > a > dl > dt""").click()
+    
+    title = browser.find_element_by_css_selector("""#container > div > article > div.article-head > h1""").text.strip() 
+    date = browser.find_element_by_css_selector("""#container > div > article > div.article-head > div.info > span""").text.strip()
+    
+    texts = browser.find_element_by_css_selector("""#container > div > article > div.article-content""").text
     browser.close()
     
     texts = re.sub('[□○※【】]', '', texts)

@@ -43,7 +43,10 @@ const PredGraph = () => {
 
   const valDataState = { 
     data: [], 
-    layout: {}
+    layout: {}, 
+    min_value: '', 
+    max_value: '', 
+    average: 0 
   }
 
   const predDataState = { 
@@ -62,7 +65,10 @@ const PredGraph = () => {
       .then(response => {
         setValData({
           data: response.data.data, 
-          layout: response.data.layout
+          layout: response.data.layout, 
+          min_value: response.data.min_value, 
+          max_value: response.data.max_value, 
+          average: response.data.average
         })
     })
 
@@ -91,10 +97,11 @@ const PredGraph = () => {
             layout={valData.layout}
           />
           <S.Description>
-            평균 오차: {}
+            평균 오차: {valData.average}명
             <br/>
-            최소 오차: {} 
-            최대 오차: {}
+            최소 오차: {valData.min_value} 
+            <br/>
+            최대 오차: {valData.max_value}
           </S.Description>
         </div>
       </div>
@@ -110,12 +117,6 @@ const PredGraph = () => {
             data={predData.data} 
             layout={predData.layout}
           />
-          <S.Description>
-            평균 오차: {}
-            <br/>
-            최소 오차: {} 
-            최대 오차: {}
-          </S.Description>
         </div>
       </div>
       

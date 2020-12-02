@@ -76,12 +76,11 @@ if __name__ == '__main__':
         delete_num = idx - limit_num 
 
         if delete_num > 0: 
+            cnt = 0 
             id_list.sort(key=lambda x:x[1])
             for _id, _ in id_list[:delete_num]: 
                 raw_news_collection.remove({'_id': ObjectId(_id) })
-
-            cnt = 0 
-            for elem in raw_news_collection.find({}): cnt += 1 
+                cnt += 1
             print("remove doc_num: ", cnt) 
 
 
@@ -101,7 +100,6 @@ if __name__ == '__main__':
         docs.append(doc) 
     cluster_summary_collection.insert_many(docs) 
     print("Insert cluster_summary data: ", True)
-
 
     # 2. brefing info Part 
     brefing_info_collection = conn.NewsData.brefing_info 

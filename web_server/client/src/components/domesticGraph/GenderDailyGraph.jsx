@@ -8,7 +8,7 @@ const S = {
   Wrapper: styled.section`
     width: 100%;
     padding-top: 120px;
-    padding-bottom: 60px;
+    padding-bottom: 30px;
     
     display: flex;
     flex-direction: column;
@@ -30,7 +30,9 @@ const GenderDailyGraph = () => {
 
   const dailyDomesticState = { 
     data: [], 
-    layout: {}
+    layout: {}, 
+    maximum: '', 
+    mimimum: ''
   }
   const [dailyData, setDailyData] = useState(dailyDomesticState);
 
@@ -45,7 +47,9 @@ const GenderDailyGraph = () => {
       .then(response => {
         setDailyData({
           data: response.data.data, 
-          layout: response.data.layout
+          layout: response.data.layout,
+          maximum: response.data.maximum, 
+          minimum: response.data.minimum
         })
     })
   }, []);
@@ -63,6 +67,11 @@ const GenderDailyGraph = () => {
             data={dailyData.data} 
             layout={dailyData.layout}
           />
+          <S.Description>
+            7일간 최대 확진자 그룹 =&gt; {dailyData.maximum}
+            <br /> 
+            7일간 최소 확진자 그룹 =&gt; {dailyData.minimum}
+          </S.Description>
         </div>
       </div>
     </S.Wrapper>

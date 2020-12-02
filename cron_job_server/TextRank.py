@@ -1,6 +1,5 @@
 from pymongo import MongoClient
 import pandas as pd
-import re
 from random import *
 
 #text
@@ -19,15 +18,23 @@ class SentenceTokenizer(object):
         except: self.mecab = Mecab(dicpath="C:/mecab/mecab-ko-dic")
 
         self.stopwords = ['뉴스','연합', '자료사진','서울연합','중인' ,'만큼', '마찬가지', '꼬집었', "연합뉴스", "데일리", "동아일보", "중앙일보", "조선일보", "기자"
-        ,"아", "휴", "아이구", "아이쿠", "아이고", "어", "나", "우리", "저희", "따라", "의해", "을", "를", "에", "의", "가"]
-
+            ,"아", "휴", "아이구", "아이쿠", "아이고", "어", "나", "우리", "저희", "따라", "의해", "을", "를", "에", "의", "가"]
     def text2sentences(self, text):
         sentences = sent_tokenize(text)
+        res = list() 
         for idx in range(0, len(sentences)):
             if len(sentences[idx]) <= 10:
-                sentences[idx-1] += (' ' + sentences[idx])
+                tmp = sentences[idx-1] + (' ' + sentences[idx])
                 sentences[idx] = ''
-        return sentences
+                if '.' in tmp: 
+                    dot_idx = tmp.index('.')
+                    if dot_idx < len(tmp)-1 and (not tmp[dot_idx+1].isnumeric() or tmp[dot_idx+1] != ' '): 
+                        res += tmp.split('.') 
+                    else: res.append(tmp) 
+                else: res.append(tmp)
+
+        pre_sentences = [elem for elem in res if len(elem) >= 1]
+        return pre_sentences
 
     def get_nouns(self, sentences):
         nouns = []
@@ -75,12 +82,15 @@ class TextRank(object):
     def __init__(self, text):
         self.sent_tokenize = SentenceTokenizer()
 
-        # if text[:5] in ('http:', 'https'):
-        #     self.sentences = self.sent_tokenize.url2sentences(text)
         self.sentences = self.sent_tokenize.text2sentences(text)
-
         self.nouns = self.sent_tokenize.get_nouns(self.sentences)
 
+        self.nouns = [elem for elem in self.nouns if elem.count(' ') > 1]
+
+        if not self.nouns: 
+            self.sentences = ["None"] * 2
+            self.nouns = ["None"] * 2
+            
         self.graph_matrix = GraphMatrix()
         self.sent_graph = self.graph_matrix.build_sent_graph(self.nouns)
         self.words_graph, self.idx2word = self.graph_matrix.build_words_graph(self.nouns)

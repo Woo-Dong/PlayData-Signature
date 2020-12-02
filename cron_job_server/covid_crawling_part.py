@@ -58,7 +58,7 @@ def crawling_domestic_detailed_covid():
     browser.implicitly_wait(1.)
 
     browser.get(f'{url}')
-    browser.implicitly_wait(1.5)
+    browser.implicitly_wait(2.5)
 
     date = browser.find_element_by_css_selector('#mainTableT > thead > tr:nth-child(1) > th:nth-child(3)')
     date = date.text.strip().replace('. ', '-')
@@ -161,6 +161,3 @@ def crawling_domestic_detailed_covid():
     df_cum = df_cum.rename({'confirmed_cumul':'confirmed','isolated_cumul':'isolated','released_cumul':'released','death_cumul':'death'}, axis='columns')
 
     return (daily_area_new, daily_gender_new, daily_age_new), df_cum  
-
-    
-

@@ -35,8 +35,12 @@ def hello_world(request):
 @app.route('/api/validate-fbprophet-plotly')
 async def plot_validate_fbprophet_plotly(request):
 
-    df = get_validate_fbprophet_data() 
+    df, min_value, average, max_value = get_validate_fbprophet_data() 
     res = validate_fbprophet_plotly(df) 
+    res['min_value'] = min_value 
+    res['max_value'] = max_value 
+    res['average'] = average
+    
     return Response.json(res)
 
 @app.route('/api/predict-fbprophet-plotly')
@@ -74,9 +78,11 @@ async def plot_domestic_daily_area_plotly(request):
 
     req = request.args
     key, values = req['query'][0], req['y'][0]
-    area_df = get_domestic_daily_data(key)
+    area_df, maximum, minimum = get_domestic_daily_data(key)
 
     res = domestic_daily_plotly(area_df, key, values)
+    res['maximum'] = maximum
+    res['minimum'] = minimum
     return Response.json(res) 
 
 @app.route('/api/domestic-cumul-plotly')

@@ -48,19 +48,19 @@ def insert_domestic_detailed_covid():
     domestic_detailed_age_collection = conn.DomesticDetailedCOVID.age
 
     print("insert_domestic_detailed_covid - area: ", 
-            upsert_data(area_df, domestic_detailed_area_collection, ['date', 'area']))
+            upsert_data(area_df, domestic_detailed_area_collection, ['date', 'area'], skip_na=True))
     
     print("insert_domestic_detailed_covid - gender: ", 
-            upsert_data(gender_df, domestic_detailed_gender_collection, ['date', 'gender'])) 
+            upsert_data(gender_df, domestic_detailed_gender_collection, ['date', 'gender'], skip_na=True)) 
 
     print("insert_domestic_detailed_covid - age: ", 
-            upsert_data(age_df, domestic_detailed_age_collection, ['date', 'age']))
+            upsert_data(age_df, domestic_detailed_age_collection, ['date', 'age'], skip_na=True))
 
 
     domestic_detailed_cumul_collection = conn.DomesticDetailedCOVID.cumul 
 
     print("insert_domestic_detailed_covid - cumul: ", 
-            upsert_data(cum_df, domestic_detailed_cumul_collection, ['type', 'attr']))
+            upsert_data(cum_df, domestic_detailed_cumul_collection, ['type', 'attr'], skip_na=True))
 
     conn.close() 
 

@@ -114,7 +114,10 @@ def global_daily_plotly(data_df):
               hover_name='country')
 
     fig.update_layout(
-        plot_bgcolor="white"
+        plot_bgcolor="white", 
+        autosize=False, 
+        width=600, 
+        height=350
     )
     json_str = fig.to_json()
     return json.loads(json_str)
@@ -131,7 +134,11 @@ def global_cumul_plotly(data_df, last_date):
             base=0),
     ])
 
-    fig.update_layout(barmode='stack', title='Global Cumulative, date:'+last_date)
+    fig.update_layout(barmode='stack', title='Global Cumulative, date:'+last_date, 
+        autosize=False, 
+        width=600, 
+        height=350
+    )
 
     json_str = fig.to_json()
     return json.loads(json_str)
@@ -145,7 +152,10 @@ def domestic_daily_plotly(data_df, key, val):
                   hover_name=key)
     fig.update_layout(
         plot_bgcolor="white", 
-        legend={'traceorder': 'normal'}
+        legend={'traceorder': 'normal'}, 
+        autosize=False, 
+        width=600, 
+        height=350
     )
     json_str = fig.to_json()  
     return json.loads(json_str)
@@ -162,7 +172,10 @@ def domestic_cumul_age_plotly(data_df):
 
     fig.update_layout(
         title='domestic cumul: age',
-        barmode='group'
+        barmode='group', 
+        autosize=False, 
+        width=600, 
+        height=350
     )
     json_str = fig.to_json() 
     return json.loads(json_str) 
@@ -178,7 +191,11 @@ def domestic_cumul_area_plotly(data_df):
             base=0),
     ])
 
-    fig.update_layout(barmode='stack', title='domestic cumul: area')
+    fig.update_layout(barmode='stack', title='domestic cumul: area',
+        autosize=False, 
+        width=600, 
+        height=350
+    )
     
     json_str = fig.to_json() 
     return json.loads(json_str)
@@ -188,14 +205,18 @@ def domestic_cumul_gender_plotly(data_df):
     data_df.sort_values('attr', axis=0, inplace=True)
     genders = data_df.attr.unique()
     fig = make_subplots(rows=1, cols=2, specs=[[{'type':'domain'}, {'type':'domain'}]])
-    fig.add_trace(go.Pie(labels=genders, values=data_df.confirmed, name="confirmed"),
+    fig.add_trace(go.Pie(labels=genders, values=data_df.confirmed, name="confirmed"), 
                 1, 1)
     fig.add_trace(go.Pie(labels=genders, values=data_df.death, name="death"),
                 1, 2)
     fig.update_layout(
         title_text="domestic cumul: gender",
-        legend={'traceorder': 'reversed'}
+        legend={'traceorder': 'reversed'},
+        autosize=False, 
+        width=600, 
+        height=350
     )
-
+    fig.update_traces(
+        marker=dict(colors=['#636EFA', '#EF553B'])) 
     json_str = fig.to_json() 
     return json.loads(json_str)     

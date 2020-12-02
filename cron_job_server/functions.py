@@ -31,7 +31,7 @@ def insert_data(df, collection, *chk_keys, check=False):
     return False 
 
 
-def upsert_data(df, collection, keys, upsert_columns=None, reset=False): 
+def upsert_data(df, collection, keys, upsert_columns=None, reset=False, skip_na=False): 
 
     if reset: collection.drop() 
     
@@ -44,7 +44,9 @@ def upsert_data(df, collection, keys, upsert_columns=None, reset=False):
 
         key_values = [row[elem] for elem in keys]
         upsert_values = [row[elem] for elem in upsert_columns]
-        
+
+        if skip_na and (0 in upsert_values or '0' in upsert_values): continue
+
         collection.find_one_and_update(
             {k: v for k, v in zip(keys, key_values)}, 
             {'$set': {k: v for k, v in zip(upsert_columns, upsert_values)} }, 

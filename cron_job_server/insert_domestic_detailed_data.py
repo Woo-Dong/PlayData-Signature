@@ -5,7 +5,7 @@ import requests
 import io
 import os
 
-from functions import conn_db, insert_data
+from functions import conn_db, insert_data, upsert_data
 
 def covid19_kor_insert(file_name):
     #데이터 불러오기
@@ -96,7 +96,6 @@ def covid19_kor_insert(file_name):
     covid19_area = covid19_area[['date','area','confirmed','iso','iso_rel','death']]
     covid19_area['date'] = covid19_area['date'].str.replace('. ', '-')
     covid19_area.rename({'iso': 'isolated', 'iso_rel': 'released'}, axis=1, inplace=True) 
-    covid19_area = covid19_area[covid19_area['date'] != 'Unnamed-304']
     print(covid19_area)
 
     #gender 데이터 추출
@@ -111,7 +110,6 @@ def covid19_kor_insert(file_name):
     covid19_gender = covid19_gender.reset_index()
     covid19_gender = covid19_gender[['date', 'gender', 'confirmed', 'death']]
     covid19_gender['date'] = covid19_gender['date'].str.replace('. ', '-')
-    covid19_gender = covid19_gender[covid19_gender['date']!='Unnamed-304']
     print(covid19_gender)
     
     #go: age 데이터 추출함수
@@ -131,7 +129,6 @@ def covid19_kor_insert(file_name):
                           extract_age('60s'), extract_age('70s'), extract_age('80s')])
     covid19_age = covid19_age[['date', 'age', 'confirmed', 'death']]
     covid19_age['date'] = covid19_age['date'].str.replace('. ', '-')
-    covid19_age = covid19_age[covid19_age['date'] != 'Unnamed-304']
     print(covid19_age)
 
     # mongodb에 데이터 insert
@@ -141,10 +138,10 @@ def covid19_kor_insert(file_name):
     kor_gender_collection = conn.DomesticDetailedCOVID.gender
     kor_age_collection = conn.DomesticDetailedCOVID.age
 
-    print("crawling_covid19_area Updated: ", insert_data(covid19_area, kor_area_collection, 'date', 'area'))
-    print("crawling_covid19_gender Updated: ", insert_data(covid19_gender, kor_gender_collection, 'date', 'gender'))
-    print("crawling_covid19_age Updated: ", insert_data(covid19_age, kor_age_collection, 'date', 'age'))
+    print("crawling_covid19_area Updated: ", upsert_data(covid19_area, kor_area_collection, ['date', 'area']))
+    print("crawling_covid19_gender Updated: ", upsert_data(covid19_gender, kor_gender_collection, ['date', 'gender']))
+    print("crawling_covid19_age Updated: ", upsert_data(covid19_age, kor_age_collection, ['date', 'age']))
     conn.close()
 
 if __name__ == "__main__":
-    covid19_kor_insert('data_1125.csv')
+    covid19_kor_insert('data_1130.csv')

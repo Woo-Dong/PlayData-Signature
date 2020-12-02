@@ -82,7 +82,26 @@ def get_validate_fbprophet_data():
 
     ret_df['date'] = pd.to_datetime(ret_df['date'])
 
-    return ret_df 
+    diff = list() 
+    for i in range(len(ret_df)): 
+        row = ret_df.iloc[i] 
+        diff.append(abs(row.real-row.pred))
+    
+    minimum, maximum = diff[0], diff[0] 
+    min_date, max_date = '', '' 
+    for idx, elem in enumerate(diff): 
+        if elem <= minimum: 
+            minimum = elem 
+            min_date = ret_df.iloc[idx].date 
+        if elem >= maximum: 
+            maximum = elem 
+            max_date = ret_df.iloc[idx].date 
+    min_value = min_date.strftime("%Y-%m-%d") + '일 => ' + str(minimum)
+    max_value = max_date.strftime("%Y-%m-%d") + '일 => ' + str(maximum)
+    average = int(sum(diff)/len(diff)) 
+
+    return ret_df, min_value, average, max_value
+
 
 
 def get_global_daily_data(): 
@@ -132,12 +151,28 @@ def get_domestic_daily_data(key):
     total_data = [[elem[col] for col in col_list] for elem in domestic_detailed_collection.find({})]
 
     conn.close() 
-
     ret_df = pd.DataFrame(total_data, columns=col_list) 
+    ret_df.sort_values(['date', key], inplace=True)
+    n = len(ret_df[key].unique()) * 7
+    if len(ret_df) > n: ret_df = ret_df.tail(n) 
+
     ret_df.confirmed = ret_df.confirmed.astype(int)
     ret_df.death = ret_df.death.astype(int)
     ret_df = ret_df[ret_df['date'] > '2020-04-09']
-    return ret_df
+
+    tmp = ret_df[[key, 'confirmed']].groupby(key).sum() 
+    
+    maximum = tmp.loc[tmp['confirmed'].idxmax()]
+    max_name, max_value = maximum.name, str(maximum.values[0])
+    maximum = f'{maximum.name}: {max_value}명'
+
+
+    minimum = tmp.loc[tmp['confirmed'].idxmin()]
+    max_name, min_value = minimum.name, str(minimum.values[0])
+    minimum = f'{minimum.name}: {min_value}명'
+
+
+    return ret_df, maximum, minimum
 
 
 def get_domestic_cumul_data(key): 
@@ -185,6 +220,7 @@ def get_domestic_cumul_data(key):
 
     total_data = _set_df_input_data(col_list, domestic_detailed_cumul_collection, 'gender') 
     gender_df = pd.DataFrame(total_data, columns=col_list) 
+    gender_df.sort_values('attr', inplace=True)
 
     for col in col_list[1:]: gender_df[col] = gender_df[col].astype(int)
 
