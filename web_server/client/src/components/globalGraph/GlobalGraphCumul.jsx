@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 import Plot from 'react-plotly.js'; 
+import { useScrollFadeIn } from '../../hooks';
+
 import styled from 'styled-components';
 import Axios from 'axios'; 
 
@@ -33,6 +35,11 @@ const S = {
 
 const GlobalGraphCumul = () => {
 
+  const animatedItem = {
+    0: useScrollFadeIn('up',     1,   0, 0.5),
+		1: useScrollFadeIn('left', 0.5, 0.6, 0.5),
+  };
+
   const cumulGlobalState = { 
     data: [], 
     layout: {}
@@ -52,12 +59,12 @@ const GlobalGraphCumul = () => {
   
   return (
     <S.Wrapper>
-      <S.Label >
+      <S.Label {...animatedItem[0]} >
         누적 상황
       </S.Label>
       <br />
       <div className='row'>
-        <div className='plot-plotly col-md-auto'>
+        <div className='plot-plotly col-md-auto' {...animatedItem[1]}>
           <Plot 
             data={cumulGlobal.data} 
             layout={cumulGlobal.layout}

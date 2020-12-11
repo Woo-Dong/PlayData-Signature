@@ -23,7 +23,6 @@ const S = {
     ${props => props.theme.typography.subtitle};
     color: ${props => props.theme.palette.black};
     text-align: center;
-    margin-bottom: 4rem;
   `,
   ItemWrapper: styled.ul`
     width: 100%;
@@ -113,11 +112,8 @@ const BrefingInfo = () => {
   return (
     <S.Wrapper>
       <S.Label>정부 브리핑 최신 내용 요약</S.Label>
-      <S.Title>
-        {brefingData.title}
-        <br />
-        게시 날짜: {brefingData.date}
-      </S.Title>
+      <S.Title>{brefingData.title}</S.Title>
+      <S.ItemTitle>게시 날짜: {brefingData.date}</S.ItemTitle>
       {SERVICES_ITEMS.map((item, index) => (
         <S.ItemWrapper key={item.title} {...animatedItem[index]}>
           <S.ItemBox>

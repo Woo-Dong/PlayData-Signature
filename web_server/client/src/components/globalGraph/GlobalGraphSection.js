@@ -23,6 +23,7 @@ export default class GlobalGraphSection extends React.Component {
           <GlobalGraphDaily />
           <GlobalGraphCumul /> 
         </div>
+        <hr style={{height: 5}}/>
       </div>
     );
   }

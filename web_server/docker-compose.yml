@@ -13,9 +13,9 @@ services:
       - ./:/app 
       - ./functions:/app/functions
     environment: 
-      DBUSER: signature
-      DBADDR: "54.180.213.105"
-      DBPWD: shanekang 
+      DBUSER: YOUR_DB_USER
+      DBPWD: YOUR_DB_PASSWORD 
+      DBADDR: YOUR_DB_ADDR_OR_IP
 
 
   web:

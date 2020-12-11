@@ -68,7 +68,7 @@ function IndexNavbar(props) {
 								variant="primary"
 							>
 								<i className="now-ui-icons design_bullet-list-67"></i>
-								<p>국내-일별</p>
+								<p>국내 상황</p>
 							</NavLink>
 						</NavItem>
 

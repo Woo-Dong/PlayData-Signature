@@ -96,16 +96,16 @@ const NewsBox = () => {
       description:
       contentData.content[2],
     },
-    {
-      title: '4번째 뉴스 요약',
-      description:
-      contentData.content[3],
-    },
-    {
-      title: '5번째 뉴스 요약',
-      description:
-      contentData.content[4],
-    }
+    // {
+    //   title: '4번째 뉴스 요약',
+    //   description:
+    //   contentData.content[3],
+    // },
+    // {
+    //   title: '5번째 뉴스 요약',
+    //   description:
+    //   contentData.content[4],
+    // }
   ];
 
   const animatedItem = {

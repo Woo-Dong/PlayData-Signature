@@ -36,7 +36,7 @@ export default class App extends React.Component {
 				<IndexNavbar 
 					toIndexHeader={() => scrollToComponent(this.IndexHeader, 
 											{ offset: 0, align: 'top', duration: 1500, ease:'inExpo'} )}
-					toDomesticSection={() => scrollToComponent(this.DomesticDaily, 
+					toDomesticSection={() => scrollToComponent(this.DomesticGraphSection, 
 											{ offset: 0, align: 'top', duration: 1500} )}
 
 					toGlobalSection={() => scrollToComponent(this.GlobalGraphSection, 

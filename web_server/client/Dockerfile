@@ -7,9 +7,9 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json /app/package.json
 
 
-RUN npm install 
+RUN npm install --silent
 RUN npm audit fix
-RUN npm install react-scripts@3.4.3 -g 
+RUN npm install react-scripts@3.4.3 -g --silent
 
 COPY . /app
 CMD ["npm", "start"]

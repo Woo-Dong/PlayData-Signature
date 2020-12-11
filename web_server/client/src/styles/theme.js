@@ -12,7 +12,7 @@ const theme = {
     typography: {
       title: {
         fontFamily: '"현대하모니"',
-        fontSize: '4rem',
+        fontSize: '3rem',
         fontWeight: 600,
       },
       subtitle: {

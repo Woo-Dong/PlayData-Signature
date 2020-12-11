@@ -7,12 +7,18 @@ import Axios from 'axios';
 const S = {
   Wrapper: styled.section`
     width: 100%;
-    padding-top: 120px;
+    padding-top: 60px;
     padding-bottom: 30px;
     
     display: flex;
     flex-direction: column;
     align-items: center;
+  `,
+  Title: styled.h1`
+    ${props => props.theme.typography.title};
+    color: #f1c232;
+    margin-bottom: 0.5rem;
+    
   `,
   Label: styled.p`
     display: inline-block;
@@ -57,10 +63,9 @@ const GenderDailyGraph = () => {
   
   return (
     <S.Wrapper>
-      <S.Label >Domestic COVID-19 확진자 그래프</S.Label>
-      <S.Label >
-        성별 분석
-      </S.Label>
+      <S.Title >국내 상황</S.Title>
+      <S.Label >확진자 현황</S.Label>
+      <S.Label >성별 분석</S.Label>
       <div className='row'>
         <div className='plot-plotly col-md-auto'>
           <Plot 

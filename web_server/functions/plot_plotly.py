@@ -30,7 +30,7 @@ def validate_fbprophet_plotly(data_df):
         name='실제 값', mode='markers'
     )
 
-    plot_data = [trace_lower, trace_upper, trace_pred, trace_real]
+    plot_data = [trace_lower, trace_upper, trace_pred, trace_real][2:]
 
     colors = ['#0a01ff', '#989cff', '#0a9cff', '#ff0000']
 
@@ -55,13 +55,13 @@ def validate_fbprophet_plotly(data_df):
                 titlefont=dict(color=colors[2]),
                 tickfont=dict(color=colors[2])    
             ),
-        yaxis4=dict(
-                title='upper',
-                overlaying='y',
-                side='right',
-                titlefont=dict(color=colors[3]),
-                tickfont=dict(color=colors[3])    
-            )
+        # yaxis4=dict(
+        #         title='upper',
+        #         overlaying='y',
+        #         side='right',
+        #         titlefont=dict(color=colors[3]),
+        #         tickfont=dict(color=colors[3])    
+        #     )
     )
 
     fig = go.Figure(data=plot_data, layout=layout)
@@ -98,7 +98,7 @@ def predict_fbprophet_plotly(data_df, prev_num):
         name='예측 값', mode='markers'
     )
 
-    plot_data = [trace_err, trace_pred]
+    plot_data = [trace_err, trace_pred][1:]
 
     fig = go.Figure(data=plot_data)
 

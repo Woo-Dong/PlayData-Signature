@@ -88,7 +88,8 @@ const WORKS_ITEMS = [
     title: '박동우',
     label: '#Full_Stack #Dev-Analyst #즐기면서_실용적인',
     description:
-      '후룰룰루 훈화말씀',
+      '스스로 개발한 시스템을 개선하며 성장하는 박동우 입니다.',
+    githubLink: 'https://github.com/Woo-Dong'
 	},
 	
   {
@@ -97,6 +98,7 @@ const WORKS_ITEMS = [
     label: '#kpop #k방역 #bts #불닭볶음면 #kstartup',
     description:
       '경제적 자유를 추구하는 백지훈입니다. 주식, 스타트업에 관심이 많습니다.',
+    githubLink: 'https://github.com/qorwlgns11123'
 	},
 	{
     image: introduceImg3,
@@ -104,6 +106,7 @@ const WORKS_ITEMS = [
     label: '#호주 #달리기 #강릉 #108배 #몽중인백짬뽕',
     description:
       '디지털 노마드 여정을 시작한 강셰인입니다. 여행과 수행이 취미입니다.',
+      githubLink: 'https://github.com/shanekang'
   },
 ];
 
@@ -133,7 +136,7 @@ const Info = () => {
               <S.ItemLabel>{item.label}</S.ItemLabel>
               <S.ItemDesciption>{item.description}</S.ItemDesciption>
 							<br />
-              <S.TextButton>Git Hub Link</S.TextButton>
+              <S.TextButton as="a" href={item.githubLink}>Git Hub Link</S.TextButton>
             </S.TextContainer>
           </S.ListItem>
         ))}

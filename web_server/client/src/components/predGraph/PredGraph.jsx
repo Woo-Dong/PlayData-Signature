@@ -20,11 +20,10 @@ const S = {
     color: ${props => props.theme.palette.primary};
     margin-bottom: 1rem;
   `,
-  Title: styled.h2`
-    ${props => props.theme.typography.subtitle};
-    color: ${props => props.theme.palette.black};
-    margin-bottom: 2rem;
-    text-align: center;
+  Title: styled.h1`
+    ${props => props.theme.typography.title};
+    color: #f1c232;
+    margin-bottom: 0.5rem;
   `,
   Description: styled.p`
     ${(props) => props.theme.typography.description};
@@ -84,7 +83,7 @@ const PredGraph = () => {
   
   return (
     <S.Wrapper>
-      <S.Label {...animatedItem[0]}>COVID-19 확진자 그래프</S.Label>
+      <S.Title {...animatedItem[0]}>COVID-19 확진자 예측</S.Title>
       <S.Label {...animatedItem[1]}>
         지난 7일간 예측 값과 실제 값 비교
       </S.Label>
